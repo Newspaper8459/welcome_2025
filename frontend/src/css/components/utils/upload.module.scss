@@ -1,0 +1,42 @@
+.uploader {
+  border: 2px dashed #aaa;
+  border-radius: 8px;
+
+  padding: 2rem 1rem;
+  text-align: center;
+
+  &Image {
+    margin-top: 1rem;
+    max-width: 100%;
+  }
+
+  &Divider {
+    position: relative;
+
+    margin: 1rem 0;
+    &::before {
+      content: '';
+
+      height: 1px;
+      width: 35%;
+
+      background-color: #555;
+
+      position: absolute;
+      top: 50%;
+      left: 0;
+    }
+
+    &::after {
+      content: '';
+
+      height: 1px;
+      width: 35%;
+
+      background-color: #555;
+      position: absolute;
+      top: 50%;
+      right: 0;
+    }
+  }
+}

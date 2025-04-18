@@ -4,7 +4,7 @@
   margin: 0 auto;
 }
 
-.topContent {
+.playerControls {
   margin: 0 auto;
 
   width: 100vw;
@@ -13,44 +13,175 @@
   border-bottom: 1px solid #ddd;
   box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 
-  .topControls {
+  &Container {
     display: flex;
     align-items: center;
 
     padding: 1rem 0;
 
-    &Slider {
-      width: 300px;
+    &>* {
+      margin: 0 0.5rem !important;
+    }
+  }
 
-      .sliderTitle {
-        font-size: 0.8rem;
-      }
+  &Slider {
+    width: 300px;
 
-      .sliderMain {
-        display: flex;
+    display: flex;
+    flex-direction: column;
 
-        .slider {
-          margin-right: 1rem;
-        }
-      }
-
-      * {
-        margin: 0;
-      }
+    &Title {
+      font-size: 0.8rem;
     }
 
-    &>* {
-      margin: 0 0.5rem;
+    &Track {
+      display: flex;
+    }
+
+    &Input {
+      margin-left: 0.5rem;
     }
   }
 }
 
-.main {
-  &Controls {
-    display: flex;
+.mainControls {
+  background: #f7f7f7;
 
-    .title {
-      
+  &Container {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 2rem 0;
+
+  }
+
+  &Title {
+    margin-bottom: 1rem;
+
+    font-weight: normal;
+    font-size: 1rem;
+    color: #222;
+  }
+
+  &Dataset {
+    width: 15%;
+
+    &Tab {
+      display: flex;
+      margin-bottom: 1rem;
+    }
+
+    &Category {
+      font-weight: normal;
+      font-size: 0.8rem;
+
+      width: 50%;
+      text-align: center;
+
+      padding: 0.5rem 0;
+
+      color: #bbb;
+      border-bottom: 2px solid #bbb;
+
+      &[data-is-active=true] {
+        border-bottom: 2px solid #000;
+        color: #000;
+      }
+    }
+
+    &List {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &Item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 4px;
+      // margin: 4px 0;
+    }
+
+    &Icon {
+      width: 10px;
+      height: 10px;
+
+      border-radius: 50%;
+    }
+  }
+
+  &Model {
+    width: 20%;
+  }
+
+  &Output {
+    width: 50%;
+
+    &Container {
+      width: 40%;
+
+    }
+
+    &List {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &Item {
+      overflow: hidden;
+
+      width: 100%;
+      height: 40px;
+
+      // padding: 0.5rem;
+      margin-bottom: 0.5rem;
+
+      border-radius: 5px;
+      border: 1px solid #aaa;
+
+      position: relative;
+
+      &:hover &Bg{
+        opacity: 0.4;
+      }
+
+      &Bg {
+        width: 0%;
+        height: 100%;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+
+        opacity: 0.2;
+        transition: all, 0.2s;
+      }
+
+
+      &Text {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 0.5rem;
+
+        width: 100%;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      }
+
+      &Content {
+        color: #222;
+      }
+
+      &Acc {
+        color: #aaa;
+      }
     }
   }
 }
