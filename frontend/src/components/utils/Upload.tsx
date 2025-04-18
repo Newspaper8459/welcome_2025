@@ -1,13 +1,49 @@
-import { ChangeEvent, DragEvent, useCallback, useRef, useState } from 'react';
+import { ChangeEvent, Dispatch, DragEvent, SetStateAction, useCallback, useRef, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
 import upload from '../../css/components/utils/upload.module.scss';
 import { Button } from '@mui/material';
+import axios from 'axios';
 
 
-const UploadInner = () => {
+type Props = {
+  taskId: number,
+  accuracy: number[],
+  setAccuracy: Dispatch<SetStateAction<number[]>>,
+}
+
+const arrayBufferToBase64 = (buffer: ArrayBuffer): string => {
+  const bytes = new Uint8Array(buffer);
+  const binary = bytes.reduce(
+    (acc, byte) => acc + String.fromCharCode(byte),
+    ""
+  );
+  return btoa(binary);
+}
+
+const inference = async (task_id: number, buf: ArrayBuffer|null=null) => {
+  if(task_id === -1) return;
+
+  let b64: string|null = null
+  let url = 'http://localhost:8000/api/inference';
+
+  if(buf != null) {
+    b64 = arrayBufferToBase64(buf);
+    url = `${url}/custom`
+  }
+
+  const res = await axios.post(url, {
+    task_id: task_id,
+    b64: b64,
+  });
+  const prob: number[] = res.data.prob;
+
+  return prob;
+}
+
+const UploadInner = (props: Props) => {
   const [previewUrl, setPreviewUrl] = useState('');
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -21,6 +57,21 @@ const UploadInner = () => {
       };
 
       reader.readAsDataURL(file);
+
+      file.arrayBuffer()
+        .then((buf) => {
+          // console.log(v);
+          const res = inference(props.taskId, buf);
+          res.then((probs) => {
+            props.setAccuracy(probs);
+            // console.log(props.accuracy);
+          })
+          .catch((e) => {console.error(e);}
+          )
+        })
+        .catch((e) => {
+          console.error(e);
+        });
     },
     [],
   );
@@ -93,10 +144,10 @@ const UploadInner = () => {
   );
 }
 
-const Upload = () => {
+const Upload = (props: Props) => {
   return (
     <DndProvider backend={HTML5Backend}>
-      <UploadInner />
+      <UploadInner taskId={props.taskId} accuracy={props.accuracy} setAccuracy={props.setAccuracy} />
     </DndProvider>
   );
 }

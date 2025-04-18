@@ -4,7 +4,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from api.routers import router
+from api.routers.router import router
 
 
 ABS = Path(__file__).resolve().parent
@@ -12,11 +12,12 @@ ABS = Path(__file__).resolve().parent
 app = FastAPI()
 app.include_router(router)
 
-origins = ['http://localhost:5173']
+# origins = ['http://localhost:5173', 'http://127.0.0.1:5173']
+origins = ['*']
 app.add_middleware(
   CORSMiddleware,
   allow_origins=origins,
-  allow_credenrials=True,
+  allow_credentials=True,
   allow_methods=['*'],
   allow_headers=['*']
 )

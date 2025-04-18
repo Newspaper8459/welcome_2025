@@ -113,6 +113,22 @@
 
   &Model {
     width: 20%;
+
+    &Config {
+
+    }
+
+    &Method {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      border: 1px solid #000;
+      border-radius: 5px;
+
+      padding: 0.5rem 1rem;
+      margin: 0.5rem 0;
+    }
   }
 
   &Output {
